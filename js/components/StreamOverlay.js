@@ -2,7 +2,6 @@ import {Modal} from 'react-overlays';
 import React from 'react';
 import {host} from '../index';
 import styles from '../../../css/bootstrap.min.css';
-import ReactLoading from 'react-loading';
 
 const modalStyle = {
     position: 'fixed',
@@ -34,16 +33,12 @@ const dialogStyle = function () {
 function getTweetHtml(json) {
     return (
         <div style={{padding: '5px', borderRadius: '3px', border: '1px solid black', margin: '10px'}}>
+            <a href={json.link} target="_blank">
             <div style={{marginBottom: '5px'}}>
-                <b>{json['screen_name']}</b>
-                <a href={json.link} target="_blank">
-                <button className={[styles.pullRight, styles.btn, styles.btnSm, styles.btnDefault].join(' ')}
-                        style={{fontSize: '10px'}}>
-                    See on Twitter
-                </button>
-                </a>
+                <b>@{json['screen_name']}</b>
             </div>
-            <div>{json['text']}</div>
+            <div style={{overflowX: 'hidden'}}>{json['text']}</div>
+            </a>
         </div>
     )
 }
@@ -69,7 +64,6 @@ export default class StreamOverlay extends React.Component {
         if (this.eventSource) {
             return;
         }
-        // this.eventSource = new EventSource(host + '/api/stream.json?channel=' + 'all');
         this.eventSource = new EventSource(host + '/api/stream.json?channel=' + channel);
         this.eventSource.onmessage = (event) => {
             let json = JSON.parse(event.data);
@@ -96,10 +90,8 @@ export default class StreamOverlay extends React.Component {
                             'WebkitTextFillColor': 'transparent',
                             'WebkitBackgroundClip': 'text',
                             }}>{this.state.country}</span></h2>
-                        <div className={styles.pullLeft}>
-                            <ReactLoading type="spinningBubbles" color="#000"/>
-                        </div>
-                        <div className={styles.container} style={{'height': '100%', 'overflowY': 'auto', 'overflowX': 'hidden', maxWidth: '100%'}}>
+                        <div className={styles.container} style={{'height': '100%', 'overflowY': 'auto',
+                            'overflowX': 'hidden', maxWidth: '100%'}}>
                             {this.state.tweets.reverse().map(getTweetHtml)}
                         </div>
                     </div>

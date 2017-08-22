@@ -46,4 +46,4 @@ export default class WorldMoodTracker extends React.Component {
             </div>
         )
     }
-}
+    }

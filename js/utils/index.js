@@ -27,6 +27,7 @@ export function countryCodeConverter(code)
     return code;
 }
 
-export function reverseCountryCode(code) {
+export function reverseCountryCode(code)
+{
     return iso3166.codes[code];
 }
